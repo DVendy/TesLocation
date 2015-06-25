@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">TesLocation</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="country_prompt">Pilih status</string>
+
+    <string-array name="country_arrays">
+        <item>On the way</item>
+        <item>On problem</item>
+        <item>On arrive</item>
+    </string-array>
+</resources>
