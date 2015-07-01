@@ -41,10 +41,10 @@ public class AppLocationService extends Service implements LocationListener {
     }
 
     public String getCity(String provider, Context context) throws IOException {
-        System.out.println("==================================================================");
+        //System.out.println("==================================================================");
         Geocoder gcd = new Geocoder(context, Locale.getDefault());
         Location location = this.getLocation(provider);
-        System.out.println(location.getLatitude());
+        //System.out.println(location.getLatitude());
         List<Address> addresses = gcd.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
         if (addresses.size() > 0){
 

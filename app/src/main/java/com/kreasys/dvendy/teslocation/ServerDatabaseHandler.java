@@ -110,6 +110,7 @@ public class ServerDatabaseHandler {
     public boolean setLocation(String user_id, String date, String latitude, String longitude, String status, String keterangan) throws JSONException{
         String param = "id="+user_id+"&date="+date+"&latitude="+latitude+"&longitude="+longitude+"&status="+status+"&keterangan="+keterangan;
         String jsonString = getJSONUrl(baseUrl + "/MobileMap/setLocation.php",param);
+        System.out.println(jsonString);
         if (jsonString.trim().equals("success"))
             return true;
         else

@@ -20,7 +20,7 @@ public class MainActivity extends Activity {
     EditText password;
     String tUsername, tPassword;
 
-    final String baseUrl = "http://192.168.10.79"; //server address
+    final String baseUrl = "http://bbm.kreasys.com"; //server address
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

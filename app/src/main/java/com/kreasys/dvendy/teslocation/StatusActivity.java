@@ -38,7 +38,7 @@ public class StatusActivity extends Activity {
     EditText editText1;
     String status, tUsername;
 
-    final String baseUrl = "http://192.168.10.79"; //server address
+    final String baseUrl = "http://bbm.kreasys.com"; //server address
 
     private Intent intent;
 
@@ -62,6 +62,9 @@ public class StatusActivity extends Activity {
         button1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
+                button1.setClickable(false);
+                button1.setText("Updating...");
+
                 ServerDatabaseHandler serverDatabaseHandler = new ServerDatabaseHandler(baseUrl);
                 if (serverDatabaseHandler.isServerReachable(baseUrl)) {
                     Location gpsLocation = appLocationService
@@ -78,22 +81,30 @@ public class StatusActivity extends Activity {
                         Date date = new Date();
 
                         try {
-                            if(!serverDatabaseHandler.setLocation(tUsername, dateFormat.format(date), String.valueOf(gpsLocation.getLatitude()), String.valueOf(gpsLocation.getLongitude()), status, editText1.getText().toString())){
+                            if(!serverDatabaseHandler.setLocation(editText1.getText().toString(), dateFormat.format(date), String.valueOf(gpsLocation.getLatitude()), String.valueOf(gpsLocation.getLongitude()), status, editText1.getText().toString())){
                                 Toast.makeText(StatusActivity.this, "Terjadi kesalahan pada server, mohon coba beberapa saat lagi.", Toast.LENGTH_LONG).show();
+                                button1.setClickable(true);
+                                button1.setText("Update");
                                 return;
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
                             Toast.makeText(StatusActivity.this, "Terjadi kesalahan pada server, mohon coba beberapa saat lagi.", Toast.LENGTH_LONG).show();
+                            button1.setClickable(true);
+                            button1.setText("Update");
                             return;
                         }
 
                         Toast.makeText(StatusActivity.this, "Lokasi berhasil terupdate", Toast.LENGTH_LONG).show();
+                        button1.setClickable(true);
+                        button1.setText("Update");
                     } else {
                         showSettingsAlert();
                     }
                 }else
                     Toast.makeText(StatusActivity.this, "Tidak terdapat terhubung ke jaringan. Mohon aktifkan jaringan.", Toast.LENGTH_LONG).show();
+                    button1.setClickable(true);
+                    button1.setText("Update");
             }
         });
 
