@@ -18,14 +18,6 @@
 		android:layout_height="match_parent"
 		android:gravity="center_vertical|center_horizontal">
 
-		<EditText
-			android:layout_width="fill_parent"
-			android:layout_height="wrap_content"
-			android:inputType="text"
-			android:ems="10"
-			android:id="@+id/editText2"
-			android:hint="id" />
-
 		<Spinner
 			android:id="@+id/spinner1"
 			android:textColor="#ffffffff"

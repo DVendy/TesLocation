@@ -3,11 +3,17 @@ package com.kreasys.dvendy.teslocation;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.IBinder;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.Locale;
 
 public class AppLocationService extends Service implements LocationListener {
 
@@ -30,6 +36,20 @@ public class AppLocationService extends Service implements LocationListener {
                 location = locationManager.getLastKnownLocation(provider);
                 return location;
             }
+        }
+        return null;
+    }
+
+    public String getCity(String provider, Context context) throws IOException {
+        System.out.println("==================================================================");
+        Geocoder gcd = new Geocoder(context, Locale.getDefault());
+        Location location = this.getLocation(provider);
+        System.out.println(location.getLatitude());
+        List<Address> addresses = gcd.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
+        if (addresses.size() > 0){
+
+            System.out.println(addresses.get(0).getLocality());
+            return (addresses.get(0).getLocality());
         }
         return null;
     }

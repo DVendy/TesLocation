@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import org.json.JSONException;
 
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -34,10 +35,12 @@ public class StatusActivity extends Activity {
     TextView txtLat;
     Button button1;
     Spinner spinner1;
-    EditText editText1, editText2;
-    String status;
+    EditText editText1;
+    String status, tUsername;
 
     final String baseUrl = "http://192.168.10.79"; //server address
+
+    private Intent intent;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -45,11 +48,13 @@ public class StatusActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        intent = getIntent();
+        tUsername = intent.getStringExtra("tUsername");
+
         txtLat = (TextView) findViewById(R.id.textview1);
         button1 = (Button) findViewById(R.id.button);
         spinner1 = (Spinner) findViewById(R.id.spinner1);
         editText1 = (EditText) findViewById(R.id.editText);
-        editText2 = (EditText) findViewById(R.id.editText2);
 
         appLocationService = new AppLocationService(
                 StatusActivity.this);
@@ -62,13 +67,18 @@ public class StatusActivity extends Activity {
                     Location gpsLocation = appLocationService
                             .getLocation(LocationManager.GPS_PROVIDER);
                     if (gpsLocation != null) {
+                        try {
+                            appLocationService.getCity(LocationManager.GPS_PROVIDER, getApplicationContext());
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                         txtLat.setText("Latitude:" + gpsLocation.getLatitude() + ", Longitude:" + gpsLocation.getLongitude());
                         serverDatabaseHandler = new ServerDatabaseHandler(baseUrl);
                         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                         Date date = new Date();
 
                         try {
-                            if(!serverDatabaseHandler.setLocation(editText2.getText().toString(), dateFormat.format(date), String.valueOf(gpsLocation.getLatitude()), String.valueOf(gpsLocation.getLongitude()), status, editText1.getText().toString())){
+                            if(!serverDatabaseHandler.setLocation(tUsername, dateFormat.format(date), String.valueOf(gpsLocation.getLatitude()), String.valueOf(gpsLocation.getLongitude()), status, editText1.getText().toString())){
                                 Toast.makeText(StatusActivity.this, "Terjadi kesalahan pada server, mohon coba beberapa saat lagi.", Toast.LENGTH_LONG).show();
                                 return;
                             }

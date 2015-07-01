@@ -126,41 +126,6 @@ public class ServerDatabaseHandler {
             return false;
     }
 
-    public User getUser(String username) throws JSONException {
-        String jsonString = getJSONUrl(baseUrl + "/TesDatabase/login.php");
-
-        if(jsonString!=null) {
-            JSONObject data = new JSONObject(jsonString);
-            JSONArray Jarray = data.getJSONArray(arrJSONKey);
-
-            List<User> users = new ArrayList<User>();
-            for (int i = 0; i < Jarray.length(); i++) {
-                JSONObject c = Jarray.getJSONObject(i);
-                if (username.equals(c.getString("username")))
-                    return new User(Integer.parseInt(c.getString("id")), c.getString("username"), c.getString("md5"), c.getString("name"), c.getString("email"), c.getString("hp"));
-            }
-            return null;
-        }
-        else
-        {
-            return null;
-        }
-    }
-
-    public int updateUser(User newUser) throws JSONException {
-        String param = "id="+newUser.getId()+"&name="+newUser.getName()+"&md5="+newUser.getPassword();
-        String jsonString = getJSONUrl(baseUrl + "/TesDatabase/user_update.php",param);
-
-        if(jsonString==null)//failed
-        {
-            return 0;
-        }
-        else
-        {
-            return 1;
-        }
-    }
-
     public String getVersion() throws JSONException {
         String jsonString = getJSONUrl(baseUrl + "/TesDatabase/version.php");
 
