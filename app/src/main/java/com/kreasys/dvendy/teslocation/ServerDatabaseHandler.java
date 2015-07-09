@@ -55,8 +55,6 @@ public class ServerDatabaseHandler {
             //HttpResponse response = client.execute(httpGet);
             HttpURLConnection conn = (HttpURLConnection) url2.openConnection();
             conn.setRequestMethod("GET");
-            conn.setConnectTimeout(2000);
-            conn.setReadTimeout(2000);
 
             InputStream in = new BufferedInputStream(conn.getInputStream());
             BufferedReader reader = new BufferedReader(new InputStreamReader(in));
@@ -82,8 +80,6 @@ public class ServerDatabaseHandler {
             conn.setDoOutput(true);
             conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
             conn.setRequestMethod("GET");
-            conn.setConnectTimeout(2000);
-            conn.setReadTimeout(2000);
 
             request = new OutputStreamWriter(conn.getOutputStream());
             request.write(param);
@@ -102,6 +98,7 @@ public class ServerDatabaseHandler {
             return null;
         } catch(Exception e){
             e.printStackTrace();
+            return null;
         }
         //System.out.println(str.toString());
         return str.toString();
@@ -144,26 +141,6 @@ public class ServerDatabaseHandler {
         else
         {
             return null;
-        }
-    }
-
-    public int checkForUpdate(String dbVersion) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        Date version_device, version_server;
-        try {
-            version_device = dateFormat.parse(dbVersion);
-            version_server = dateFormat.parse(getVersion());
-            //System.out.println("===============================================ini VERSI hp : " + version_device);
-            //System.out.println("===============================================ini VERSI server : " + version_server);
-
-            if (version_device.getTime() != version_server.getTime())
-                return 0; //need update
-            else
-                return 2; //up to date
-        } catch (JSONException e) {
-            return 0; //an error means need update
-        } catch (ParseException ignored) {
-            return 0; //an error means need update
         }
     }
 

@@ -62,6 +62,7 @@ public class MainActivity extends Activity {
                 if (serverDatabaseHandler.login(tUsername, tPassword)){
                     Intent intent = new Intent("com.kreasys.dvendy.teslocation.StatusActivity");
                     intent.putExtra("tUsername", tUsername);
+                    intent.putExtra("baseUrl", baseUrl);
                     startActivity(intent);
                 }else
                     showTaskStatus("Username atau password salah.");

@@ -28,6 +28,10 @@ public class AppLocationService extends Service implements LocationListener {
                 .getSystemService(LOCATION_SERVICE);
     }
 
+    public boolean isProviderEnabled(String provider){
+        return locationManager.isProviderEnabled(provider);
+    }
+
     public Location getLocation(String provider) {
         if (locationManager.isProviderEnabled(provider)) {
             locationManager.requestLocationUpdates(provider,
@@ -36,20 +40,6 @@ public class AppLocationService extends Service implements LocationListener {
                 location = locationManager.getLastKnownLocation(provider);
                 return location;
             }
-        }
-        return null;
-    }
-
-    public String getCity(String provider, Context context) throws IOException {
-        //System.out.println("==================================================================");
-        Geocoder gcd = new Geocoder(context, Locale.getDefault());
-        Location location = this.getLocation(provider);
-        //System.out.println(location.getLatitude());
-        List<Address> addresses = gcd.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
-        if (addresses.size() > 0){
-
-            System.out.println(addresses.get(0).getLocality());
-            return (addresses.get(0).getLocality());
         }
         return null;
     }
