@@ -39,6 +39,8 @@ public class StatusActivity extends Activity {
     EditText editText1;
     String status, tUsername;
 
+    Long lastTime;
+
     Location gpsLocation;
 
     String baseUrl; //server address
@@ -60,6 +62,8 @@ public class StatusActivity extends Activity {
         spinner1 = (Spinner) findViewById(R.id.spinner1);
         editText1 = (EditText) findViewById(R.id.editText);
 
+        lastTime = 0l;
+
         appLocationService = new AppLocationService(
                 StatusActivity.this);
 
@@ -73,16 +77,38 @@ public class StatusActivity extends Activity {
                     gpsLocation = appLocationService
                             .getLocation(LocationManager.GPS_PROVIDER);
                     if (gpsLocation != null) {
-//                        Toast.makeText(StatusActivity.this, "GPS", Toast.LENGTH_LONG).show();
-                        LocGps locTask = new LocGps();
-                        locTask.execute("abc", "10", "Hello world");
+                        DateFormat formatter = new SimpleDateFormat("HH:mm:ss:SSS");
+                        String dateFormatted = formatter.format(gpsLocation.getTime());
+                        if (lastTime - gpsLocation.getTime() != 0){
+                            lastTime = gpsLocation.getTime();
+//                            Toast.makeText(StatusActivity.this, "GPS : " + String.valueOf(gpsLocation.getLatitude()) + " time: " + dateFormatted, Toast.LENGTH_LONG).show();
+                            LocGps locTask = new LocGps();
+                            locTask.execute("abc", "10", "Hello world");
+//                            button1.setClickable(true);
+//                            button1.setText("Update");
+                        }else{
+                            Toast.makeText(StatusActivity.this, "Gagal mendapatkan lokasi terbaru, mohon coba beberapa saat lagi, atau hidupkan ulang gadget.", Toast.LENGTH_LONG).show();
+                            button1.setClickable(true);
+                            button1.setText("Update");
+                        }
+
                     }else{
                         gpsLocation = appLocationService
                                 .getLocation(LocationManager.NETWORK_PROVIDER);
                         if (gpsLocation != null) {
-//                            Toast.makeText(StatusActivity.this, "Internet", Toast.LENGTH_LONG).show();
-                            LocInternet locTask = new LocInternet();
-                            locTask.execute("abc", "10", "Hello world");
+                            DateFormat formatter = new SimpleDateFormat("HH:mm:ss:SSS");
+                            String dateFormatted = formatter.format(gpsLocation.getTime());
+                            if (lastTime - gpsLocation.getTime() != 0) {
+//                                Toast.makeText(StatusActivity.this, "Internet : " + String.valueOf(gpsLocation.getLatitude()) + " time: " + dateFormatted, Toast.LENGTH_LONG).show();
+                                LocInternet locTask = new LocInternet();
+                                locTask.execute("abc", "10", "Hello world");
+//                                button1.setClickable(true);
+//                                button1.setText("Update");
+                            }else{
+                                Toast.makeText(StatusActivity.this, "Gagal mendapatkan lokasi terbaru, mohon coba beberapa saat lagi, atau hidupkan ulang gadget.", Toast.LENGTH_LONG).show();
+                                button1.setClickable(true);
+                                button1.setText("Update");
+                            }
                         }else {
                             Toast.makeText(StatusActivity.this, "Sedang mencari lokasi, mohon coba beberapa saat lagi.", Toast.LENGTH_LONG).show();
                             button1.setClickable(true);

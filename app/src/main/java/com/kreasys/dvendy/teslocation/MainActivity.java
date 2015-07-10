@@ -30,6 +30,9 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
 
+//        Intent intent = new Intent("com.kreasys.dvendy.teslocation.StatusActivity");
+//        startActivity(intent);
+
         buttonLogin = (Button) findViewById(R.id.buttonLogin);
         username = (EditText) findViewById(R.id.username);
         password = (EditText) findViewById(R.id.password);
